@@ -1,54 +1,60 @@
-import logo from './logo.svg';
+import React , {Component} from "react";
 import './App.css';
-import "./css/Movie.css";
-import React, {Component} from "react";
 import axios from "axios";
-import Movie from "./Components/Movie.js";
 
 class App extends Component{
   constructor(props){
     super(props)
-    this.state = {
-      movieList:[]
+    this.state={
+      app_data:"",
+      app_data2:"",
     }
   }
 
-  componentDidMount(){ //Dom이 완성되고 작업 가능해지면...
-    this.getMovie();  //getMovie 함수 호출
+  request1 = async() =>{
+    const res = await axios.get("/hello");
+    this.setState({
+      app_data:res.data.hello
+    })
   }
 
-  getMovie = async() => {  //async 비동기 
-    console.log("getmovie") 
-    //axios-ajax관련 함수 (서버에 데이터 요청 하는 함수)
-    //$.ajax - spring
-    const axios_movies = await axios.get("https://yts.mx/api/v2/list_movies.json"); // 비동기?
-    console.log(axios_movies);
+  request2 = async() =>{
+    const res = await axios.get("/bye");
     this.setState({
-      movieList:axios_movies.data.data.movies
+      app_data:res.data.bye
     })
-    //상태값에 요청해서 받아온 영화관련 JSON 배열 정보만 싹 집어넣음
+  }
+
+  request3 = async() =>{
+    const res = await axios.get("/movies1"+130);
+  }
+
+  request4 = async() =>{
+    const res = await axios.get("/movies2"+130+"&"+"tank");
+    this.setState({
+      app_data : res.data.text //응답한 data 중 text의 값을 app_data에 저장
+    })
+  }
+
+  request5 = async() =>{
+    const res = await axios.get("/movies3"+130+"&"+"tank"+"&"+"strong");
+    this.setState({
+      app_data:res.data.send_message
+    })
   }
 
   render(){
-
-    const result = this.state.movieList.map(data => 
-      <Movie 
-          medium_cover_image={data.medium_cover_image}
-          title = {data.title}
-          summary = {data.summary}
-      ></Movie>
-    )
-
     return(
-      <div id='App_wrap'>
-         <div>
-            {result}
-          </div>
+      <div>
+        <h1>{this.state.app_data}</h1>
+        <button onClick={this.request1}>요청 1</button>
+        <button onClick={this.request2}>요청 2</button>
+        <button onClick={this.request3}>요청 3</button>
+        <button onClick={this.request4}>요청 4</button>
+        <button onClick={this.request5}>요청 5</button>
       </div>
     )
   }
 }
-
-
 
 export default App;
