@@ -1,13 +1,13 @@
 import React , {Component} from "react";
 import axios from "axios";
-import Movie from "./Movie/movie.js";
+import Children from "./Movie/movie.js";
 
 class App extends Component{
   constructor(props){
     super(props);
 
     this.state = {
-      Movie_list : [],
+      Movie_List : [],
     }
   }
 
@@ -16,25 +16,26 @@ class App extends Component{
   }
 
   getMovie = async() =>{
-    const axios_movies = await axios.get("https://yts.mx/api/v2/list_movies.json");
-    console.log(axios_movies);
+    const list = await axios.get("https://yts.mx/api/v2/list_movies.json");
+    console.log(list)
     this.setState({
-      Movie_list :  axios_movies.data.data.movies,
+      Movie_List : list.data.data.movies,
     })
   }
   
-  render(){
-    const result = this.state.Movie_list.map(
-      data => <Movie
-          medium_cover_image = {data.medium_cover_image}
-          title = {data.title}
-          summary = {data.summary}
-      ></Movie>
-    )
 
+  render(){
+    const deliver = this.state.Movie_List.map(
+      data => <Children
+        title = {data.title}
+        large_cover_image = {data.large_cover_image}
+        summary = {data.summary}
+      >
+      </Children>
+      ) 
     return(
-      <div>
-        {result}
+      <div className="App_wrap">
+        {deliver}
       </div>
     )
   }
