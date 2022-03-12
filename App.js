@@ -1,93 +1,58 @@
+import React , {Component} from "react";
 
-import React,{Component} from 'react';
-import axios from 'axios';
+import axios from "axios";
 
 class App extends Component{
   constructor(props){
     super(props)
-    this.state={
-      app_data:''
+
+    this.state = {
+
     }
   }
-  request1=async()=>{
-    alert("요청1")
-    const res=await axios.get('/hello')
-    //서버의 res.send결과가 axios의 리턴값에 들어가있다.
-    //res.data.hello 이 값은 "response hello"
-     this.setState({
-       app_data:res.data.hello
-     })
-  }
-  request2=async()=>{
-    alert("요청2")
-    const res=await axios.get('/bye')
-    this.setState({
-      app_data:res.data.hello
-    })
-  }
-  request3=async()=>{
-    alert("요청3")
-    const res=await axios.get('/person1'+"이민호")
-    console.log(res)
-    console.log(res.data.find)
-    this.setState({
-      app_data:res.data.find.name
-    })
-  }
-  request4=async()=>{
-    alert("요청4")
-    const res=await axios.get('/person2'+"이민호"+"&"+20)
-    this.setState({
-      app_data:res.data.hello
-    })
-  }
-  request5=async()=>{
-    alert("요청5")
-    const res=await axios.get('/person3'+"이민호"+"&"+20+"&"+176.5)
-    this.setState({
-      app_data:res.data.hello
-    })
-  }
-  request6=async()=>{
-    alert("요청6")
-    const personObj={name:"김철수",age:24,height:177.5}
-    const res=await axios.post('/person4',personObj)
-    this.setState({
-      app_data:res.data.hello
-    })
+
+  get_test = async() =>{
+    const get_axios = await axios.get("/get")
   }
 
-  request7=async()=>{
-    alert("요청7")
-    const res=await axios.delete('/person5'+"정채연")
+  post_test = async()=>{
+    var list = {
+      name : "아이유",
+      age : 29,
+      height : 165
+    }
+    const post_axios = await axios.post("/post",list)
+  }
 
+  delete_test = async()=>{
+    const delete_axios = await axios.delete("/delete"+"아이유")
   }
-  request8=async()=>{
-    alert("요청8")
-    const updateData={age:30,height:165.2}
-    const res=await axios.put('/person6'+"정채연",updateData)
-    
+
+  patch_test = async()=>{
+    var update_json = {name:"아이린",age:25,height:166.3};
+    const delete_axios = await axios.patch("/patch",update_json)
+    console.log(delete_axios.data.Update);
   }
-  request9=async()=>{
-    alert("요청9")
-    const updateData={age:30}
-    const res=await axios.patch('/person7'+"정채연",updateData)
-    
+
+  put_test = async()=>{
+    var put_list = {
+      name : "장원영",
+      age : 20,
+      height : 173
+    }
+    const delete_axios = await axios.put("/put",put_list);
+    console.log(delete_axios.data.list)
   }
+
 
   render(){
     return(
       <div>
-        {this.state.app_data}
-        <button onClick={this.request1}>요청1</button>
-        <button onClick={this.request2}>요청2</button>
-        <button onClick={this.request3}>요청3</button>
-        <button onClick={this.request4}>요청4</button>
-        <button onClick={this.request5}>요청5</button>
-        <button onClick={this.request6}>요청6</button>
-        <button onClick={this.request7}>요청7</button>
-        <button onClick={this.request8}>요청8</button>
-        <button onClick={this.request9}>요청9</button>
+        <button onClick={this.get_test}>get_test</button>
+        <button onClick={this.post_test}>get_test</button>
+        <button onClick={this.delete_test}>get_delete</button>
+        <button onClick={this.patch_test}>get_patch</button>
+        <button onClick={this.put_test}>get_put</button>
       </div>
     )
   }
